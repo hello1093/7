@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+ RewriteEngine on 
+
+ # wwwなし
+ RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+ # httpsへリダイレクト
+ RewriteCond %{HTTPS} off
+ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+ # index.html（php）なしに統一
+ RewriteCond %{THE_REQUEST} ^.*/index.(html|php)
+ RewriteRule ^(.*)index.(html|php)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+</IfModule>
